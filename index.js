@@ -47,6 +47,14 @@ mongoose
     console.log('Recipe was updated');
     return Recipe.findOneAndUpdate(query, { $set: { duration: 100 } });
   })
+  .then(() => {
+    console.log('Carrot cake was deleted');
+    return Recipe.deleteOne(query, { title: 'Carrot Cake' });
+  })
+  .then(() => {
+    console.log('Disconnected');
+    return mongoose.disconnect();
+  })
   .catch((error) => {
     console.error('Error connecting to the database', error);
   });
