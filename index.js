@@ -7,12 +7,15 @@ const data = require('./data');
 
 const MONGODB_URI = 'mongodb://localhost:27017/recipe-app';
 
+const query = { title: 'Rigatoni alla Genovese' };
+
 // Connection to the database "recipe-app"
 mongoose
   .connect(MONGODB_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   })
   .then((self) => {
     console.log(`Connected to the database: "${self.connection.name}"`);
@@ -38,7 +41,11 @@ mongoose
     console.log(recipe.title);
   })
   .then(() => {
-    return Recipe.insertMany(data, function(error, docs) {});
+    return Recipe.insertMany(data, function (error, docs) {});
+  })
+  .then(() => {
+    console.log('Recipe was updated');
+    return Recipe.findOneAndUpdate(query, { $set: { duration: 100 } });
   })
   .catch((error) => {
     console.error('Error connecting to the database', error);
