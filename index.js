@@ -37,6 +37,9 @@ mongoose
   .then((recipe) => {
     console.log(recipe.title);
   })
+  .then(() => {
+    return Recipe.insertMany(data, function(error, docs) {});
+  })
   .catch((error) => {
     console.error('Error connecting to the database', error);
   });
